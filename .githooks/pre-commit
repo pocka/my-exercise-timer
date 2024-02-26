@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Abort on error
+set -e
+
+gray="$(tput setaf 6)"
+nocolor="$(tput sgr0)"
+
+echo "${gray}> bunx lint-staged${nocolor}"
+bunx lint-staged
+
