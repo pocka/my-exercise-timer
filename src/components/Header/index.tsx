@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { type FunctionComponent } from "preact";
+import { type ComponentChild, type FunctionComponent } from "preact";
 
 import { CircleBackslashIcon } from "../../icons/CircleBackslash.tsx";
 import { ExclamationTriangleIcon } from "../../icons/ExclamationTriangle.tsx";
@@ -12,24 +12,34 @@ function useWakeLockButton(
 	state: WakeLockState,
 ): {
 	disabled?: boolean;
+	label: ComponentChild;
 	Icon: FunctionComponent<{ class?: string }>;
 	AdditionalIcon?: FunctionComponent<{ class?: string }>;
 } {
 	switch (state.type) {
 		case "requesting":
-			return { disabled: true, Icon: LockClosedIcon };
+			return { disabled: true, Icon: LockClosedIcon, label: "Activating wake lock..." };
 		case "active":
-			return { Icon: LockClosedIcon };
+			return { Icon: LockClosedIcon, label: "Press to deactivate wake lock" };
 		case "unavailable":
-			return { disabled: true, Icon: LockOpenIcon, AdditionalIcon: CircleBackslashIcon };
+			return {
+				disabled: true,
+				Icon: LockOpenIcon,
+				AdditionalIcon: CircleBackslashIcon,
+				label: "Wake lock is not available on this platform",
+			};
 		case "request_failed":
-			return { Icon: LockOpenIcon, AdditionalIcon: ExclamationTriangleIcon };
+			return { Icon: LockOpenIcon, AdditionalIcon: ExclamationTriangleIcon, label: "Failed to activate wake lock" };
 		case "not_allowed":
-			return { Icon: LockOpenIcon, AdditionalIcon: ExclamationTriangleIcon };
+			return {
+				Icon: LockOpenIcon,
+				AdditionalIcon: ExclamationTriangleIcon,
+				label: "Wake lock request was rejected due to platform restriction",
+			};
 		case "idle":
-			return { Icon: LockOpenIcon };
+			return { Icon: LockOpenIcon, label: "Press to activate wake lock" };
 		case "releasing":
-			return { disabled: true, Icon: LockOpenIcon };
+			return { disabled: true, Icon: LockOpenIcon, label: "Deactivating wake lock..." };
 	}
 }
 
@@ -64,6 +74,7 @@ export const Header: FunctionComponent = () => {
 				>
 					<wakeLockButton.Icon class={clsx(wakeLockButton.AdditionalIcon && "text-zinc-900/15 dark:text-zinc-50/15")} />
 					{wakeLockButton.AdditionalIcon && <wakeLockButton.AdditionalIcon class="absolute inset-0" />}
+					<span class="sr-only">{wakeLockButton.label}</span>
 				</button>
 			</div>
 		</header>
