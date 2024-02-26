@@ -8,13 +8,10 @@ import { Action, Description, Layout, Title } from "./components/SingleActionScr
 import { TestingProvider } from "./contexts/TestingContext.tsx";
 import { useWakeLock, WakeLockProvider } from "./contexts/WakeLockContext.tsx";
 
-import { useCountdown } from "./hooks/useCountdown";
-
 import { bicepCurls } from "./sequences/bicepCurls.tsx";
 import { chestPress } from "./sequences/chestPress.tsx";
 import { lunges } from "./sequences/lunges.tsx";
 import { planks } from "./sequences/planks.tsx";
-import { rest as restFn } from "./sequences/rest.tsx";
 import { rows } from "./sequences/rows.tsx";
 import { shoulderPress } from "./sequences/shoulderPress.tsx";
 import { tricepExtensions } from "./sequences/tricepExtensions.tsx";
