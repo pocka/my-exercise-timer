@@ -8,3 +8,8 @@ indent_style = tab
 [*.md]
 # Trailing whitespace is used as hard linebreak in Markdown
 trim_trailing_whitespace = false
+
+# YAML stupidly disallows tabs
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
