@@ -111,7 +111,12 @@ const App: FunctionComponent = () => {
 			<main class="relative grow shrink">
 				<Body scene={scene} onChangeScene={setScene} />
 			</main>
-			<Header class="grow-0 shrink-0" />
+			<Header
+				class="grow-0 shrink-0"
+				onCancel={scene === "before_start" ? undefined : () => {
+					setScene("before_start");
+				}}
+			/>
 		</div>
 	);
 };

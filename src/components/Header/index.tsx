@@ -2,11 +2,14 @@ import { clsx } from "clsx";
 import { type ComponentChild, type FunctionComponent } from "preact";
 
 import { CircleBackslashIcon } from "../../icons/CircleBackslash.tsx";
+import { CrossCircledIcon } from "../../icons/CrossCircled.tsx";
 import { ExclamationTriangleIcon } from "../../icons/ExclamationTriangle.tsx";
 import { LockClosedIcon } from "../../icons/LockClosed.tsx";
 import { LockOpenIcon } from "../../icons/LockOpen.tsx";
 
 import { useWakeLock, type WakeLockState } from "../../contexts/WakeLockContext.tsx";
+
+import { IconButton } from "./IconButton.tsx";
 
 function useWakeLockButton(
 	state: WakeLockState,
@@ -45,9 +48,11 @@ function useWakeLockButton(
 
 export interface HeaderProps {
 	class?: string;
+
+	onCancel?(): void;
 }
 
-export const Header: FunctionComponent<HeaderProps> = ({ class: className }) => {
+export const Header: FunctionComponent<HeaderProps> = ({ class: className, onCancel }) => {
 	const wakeLock = useWakeLock();
 
 	const wakeLockButton = useWakeLockButton(wakeLock.state);
@@ -58,32 +63,45 @@ export const Header: FunctionComponent<HeaderProps> = ({ class: className }) => 
 		>
 			<div class="container mx-auto p-1 flex flex-row justify-between items-center text-zinc-700 dark:text-zinc-300">
 				<div />
-				<button
-					disabled={wakeLockButton.disabled}
-					class="relative disabled:text-zinc-400 dark:disabled:text-zinc-600 p-2 pointer-coarse:p-3"
-					onClick={() => {
-						switch (wakeLock.state.type) {
-							case "active":
-								wakeLock.deactivate();
-								return;
-							case "idle":
-							case "request_failed":
-							case "not_allowed":
-								wakeLock.activate();
-								return;
-							default:
-								return;
-						}
-					}}
-				>
-					<wakeLockButton.Icon class={clsx(wakeLockButton.AdditionalIcon && "text-zinc-900/15 dark:text-zinc-50/15")} />
-					{wakeLockButton.AdditionalIcon && (
-						<div class="absolute inset-0 flex justify-center items-center">
-							<wakeLockButton.AdditionalIcon />
-						</div>
-					)}
-					<span class="sr-only">{wakeLockButton.label}</span>
-				</button>
+				<div class="inline-flex flex-row gap-1">
+					<IconButton
+						disabled={!onCancel}
+						label="Cancel this session"
+						onClick={() => {
+							onCancel?.();
+						}}
+					>
+						<CrossCircledIcon />
+					</IconButton>
+					<IconButton
+						class="relative"
+						disabled={wakeLockButton.disabled}
+						onClick={() => {
+							switch (wakeLock.state.type) {
+								case "active":
+									wakeLock.deactivate();
+									return;
+								case "idle":
+								case "request_failed":
+								case "not_allowed":
+									wakeLock.activate();
+									return;
+								default:
+									return;
+							}
+						}}
+						label={wakeLockButton.label}
+					>
+						<wakeLockButton.Icon
+							class={clsx(wakeLockButton.AdditionalIcon && "text-zinc-900/15 dark:text-zinc-50/15")}
+						/>
+						{wakeLockButton.AdditionalIcon && (
+							<div class="absolute inset-0 flex justify-center items-center">
+								<wakeLockButton.AdditionalIcon />
+							</div>
+						)}
+					</IconButton>
+				</div>
 			</div>
 		</header>
 	);
