@@ -1,2 +1,5 @@
 # Node.js / Bun
 node_modules
+
+# Vite
+/dist
