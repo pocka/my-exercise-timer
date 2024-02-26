@@ -43,20 +43,24 @@ function useWakeLockButton(
 	}
 }
 
-export const Header: FunctionComponent = () => {
+export interface HeaderProps {
+	class?: string;
+}
+
+export const Header: FunctionComponent<HeaderProps> = ({ class: className }) => {
 	const wakeLock = useWakeLock();
 
 	const wakeLockButton = useWakeLockButton(wakeLock.state);
 
 	return (
 		<header
-			class={clsx("fixed bottom-0 left-0 right-0", "border-t border-zinc-400/20 bg-zinc-100/5 dark:bg-zinc-900/5")}
+			class={clsx(className, "border-t border-zinc-400/20 bg-zinc-100/5 dark:bg-zinc-900/5")}
 		>
-			<div class="container mx-auto p-3 flex flex-row justify-between items-center text-zinc-700 dark:text-zinc-300">
+			<div class="container mx-auto p-1 flex flex-row justify-between items-center text-zinc-700 dark:text-zinc-300">
 				<div />
 				<button
 					disabled={wakeLockButton.disabled}
-					class="relative disabled:text-zinc-400 dark:disabled:text-zinc-600"
+					class="relative disabled:text-zinc-400 dark:disabled:text-zinc-600 p-2 pointer-coarse:p-3"
 					onClick={() => {
 						switch (wakeLock.state.type) {
 							case "active":
@@ -73,7 +77,11 @@ export const Header: FunctionComponent = () => {
 					}}
 				>
 					<wakeLockButton.Icon class={clsx(wakeLockButton.AdditionalIcon && "text-zinc-900/15 dark:text-zinc-50/15")} />
-					{wakeLockButton.AdditionalIcon && <wakeLockButton.AdditionalIcon class="absolute inset-0" />}
+					{wakeLockButton.AdditionalIcon && (
+						<div class="absolute inset-0 flex justify-center items-center">
+							<wakeLockButton.AdditionalIcon />
+						</div>
+					)}
 					<span class="sr-only">{wakeLockButton.label}</span>
 				</button>
 			</div>

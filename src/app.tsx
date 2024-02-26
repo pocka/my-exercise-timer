@@ -51,10 +51,16 @@ const Menu: FunctionComponent<MenuProps> = ({ onEnd }) => {
 	);
 };
 
-const App: FunctionComponent = () => {
-	const [state, setState] = useState<"before_start" | "in_menu" | "completed">("before_start");
+type Scene = "before_start" | "in_menu" | "completed";
 
-	switch (state) {
+interface BodyProps {
+	scene: Scene;
+
+	onChangeScene(scene: Scene): void;
+}
+
+const Body: FunctionComponent<BodyProps> = ({ scene, onChangeScene }) => {
+	switch (scene) {
 		case "before_start":
 			return (
 				<Layout>
@@ -66,7 +72,7 @@ const App: FunctionComponent = () => {
 					</Description>
 					<Action
 						onClick={() => {
-							setState("in_menu");
+							onChangeScene("in_menu");
 						}}
 					>
 						Start
@@ -74,7 +80,7 @@ const App: FunctionComponent = () => {
 				</Layout>
 			);
 		case "in_menu":
-			return <Menu onEnd={() => setState("completed")} />;
+			return <Menu onEnd={() => onChangeScene("completed")} />;
 
 		case "completed":
 			return (
@@ -87,7 +93,7 @@ const App: FunctionComponent = () => {
 					</Description>
 					<Action
 						onClick={() => {
-							setState("before_start");
+							onChangeScene("before_start");
 						}}
 					>
 						Restart
@@ -97,12 +103,24 @@ const App: FunctionComponent = () => {
 	}
 };
 
+const App: FunctionComponent = () => {
+	const [scene, setScene] = useState<Scene>("before_start");
+
+	return (
+		<div class="absolute inset-0 flex flex-col">
+			<main class="relative grow shrink">
+				<Body scene={scene} onChangeScene={setScene} />
+			</main>
+			<Header class="grow-0 shrink-0" />
+		</div>
+	);
+};
+
 render(
 	import.meta.env.PROD ? <App /> : (
 		<TestingProvider enabled>
 			<WakeLockProvider>
 				<App />
-				<Header />
 			</WakeLockProvider>
 		</TestingProvider>
 	),
