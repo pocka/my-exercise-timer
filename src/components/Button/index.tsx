@@ -14,7 +14,7 @@ export const Button: FunctionComponent<ButtonProps> = ({ class: className, child
 		<button
 			class={clsx(
 				"relative rounded p-3 pb-4",
-				"pointer-coarse:p-5 pointer-coarse:p-6",
+				"pointer-coarse:p-5 pointer-coarse:pb-6",
 				"border-solid border border-zinc-400",
 				"text-md font-bold",
 				"text-zinc-700 dark:text-zinc-100",
