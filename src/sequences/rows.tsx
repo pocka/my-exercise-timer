@@ -7,7 +7,7 @@ export function* rows(sequence: SequenceComposerController, sets: number = 3) {
 	for (let i = 0; i < sets; i++) {
 		yield (
 			<Layout>
-				<Title>
+				<Title speak>
 					Dumbbell Rows ({i + 1}/{sets})
 				</Title>
 				<Description>

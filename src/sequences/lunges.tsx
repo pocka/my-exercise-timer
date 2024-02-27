@@ -7,7 +7,7 @@ export function* lunges(sequence: SequenceComposerController, sets: number = 3) 
 	for (let i = 0; i < sets; i++) {
 		yield (
 			<Layout>
-				<Title>
+				<Title speak>
 					Walking Lunges ({i + 1}/{sets})
 				</Title>
 				<Description>

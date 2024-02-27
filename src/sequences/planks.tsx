@@ -6,10 +6,10 @@ import { rest } from "./rest";
 export function* planks(sequence: SequenceComposerController, sets: number = 3, duration: number = 60) {
 	yield (
 		<Layout>
-			<Title>
+			<Title speak>
 				{duration} Second Planks
 			</Title>
-			<Description>
+			<Description speak>
 				Press the button when you are ready.
 			</Description>
 			<Action
@@ -25,7 +25,7 @@ export function* planks(sequence: SequenceComposerController, sets: number = 3, 
 	for (let i = 0; i < sets; i++) {
 		yield (
 			<Layout>
-				<Title>
+				<Title speak>
 					Ready for plank posture
 				</Title>
 				<Description>
@@ -37,7 +37,7 @@ export function* planks(sequence: SequenceComposerController, sets: number = 3, 
 
 		yield (
 			<Layout>
-				<Title>
+				<Title speak>
 					{duration} Second Plank ({i + 1}/{sets})
 				</Title>
 				<Description>

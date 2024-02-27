@@ -7,7 +7,7 @@ export function* shoulderPress(sequence: SequenceComposerController, sets: numbe
 	for (let i = 0; i < sets; i++) {
 		yield (
 			<Layout>
-				<Title>
+				<Title speak>
 					Dumbbell Shoulder Press ({i + 1}/{sets})
 				</Title>
 				<Description>

@@ -1,12 +1,10 @@
 import { type SequenceComposerController } from "../components/SequenceComposer";
 import { Countdown, Description, Layout, Title } from "../components/SingleActionScreen";
 
-import { useCountdown } from "../hooks/useCountdown";
-
 export function* rest(sequence: SequenceComposerController, seconds: number = 60) {
 	yield (
 		<Layout>
-			<Title>
+			<Title speak>
 				Rest
 			</Title>
 			<Description>

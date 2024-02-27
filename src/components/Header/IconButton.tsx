@@ -8,7 +8,7 @@ export interface IconButtonProps {
 
 	disabled?: boolean;
 
-	label: ComponentChildren;
+	label: string;
 
 	onClick(ev: Event): void;
 }
@@ -27,6 +27,7 @@ export const IconButton: FunctionComponent<IconButtonProps> = (
 				"active:bg-zinc-200 dark:active:bg-zinc-800",
 			)}
 			disabled={disabled}
+			title={label}
 			onClick={onClick}
 		>
 			{children}

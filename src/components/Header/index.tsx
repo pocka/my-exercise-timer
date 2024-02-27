@@ -6,7 +6,10 @@ import { CrossCircledIcon } from "../../icons/CrossCircled.tsx";
 import { ExclamationTriangleIcon } from "../../icons/ExclamationTriangle.tsx";
 import { LockClosedIcon } from "../../icons/LockClosed.tsx";
 import { LockOpenIcon } from "../../icons/LockOpen.tsx";
+import { SpeakerLoudIcon } from "../../icons/SpeakerLoud.tsx";
+import { SpeakerOffIcon } from "../../icons/SpeakerOff.tsx";
 
+import { useSpeechSynthesis } from "../../contexts/SpeechSynthesisContext.tsx";
 import { useWakeLock, type WakeLockState } from "../../contexts/WakeLockContext.tsx";
 
 import { IconButton } from "./IconButton.tsx";
@@ -57,6 +60,8 @@ export const Header: FunctionComponent<HeaderProps> = ({ class: className, onCan
 
 	const wakeLockButton = useWakeLockButton(wakeLock.state);
 
+	const speech = useSpeechSynthesis();
+
 	return (
 		<header
 			class={clsx(className, "border-t border-zinc-400/20 bg-zinc-100/5 dark:bg-zinc-900/5")}
@@ -72,6 +77,18 @@ export const Header: FunctionComponent<HeaderProps> = ({ class: className, onCan
 						}}
 					>
 						<CrossCircledIcon />
+					</IconButton>
+					<IconButton
+						label={speech.active ? "Deactivate speech synthesis" : "Activate speech synthesis"}
+						onClick={() => {
+							if (speech.active) {
+								speech.deactivate();
+							} else {
+								speech.activate();
+							}
+						}}
+					>
+						{speech.active ? <SpeakerLoudIcon /> : <SpeakerOffIcon />}
 					</IconButton>
 					<IconButton
 						class="relative"

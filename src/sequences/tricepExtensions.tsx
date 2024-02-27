@@ -7,7 +7,7 @@ export function* tricepExtensions(sequence: SequenceComposerController, sets: nu
 	for (let i = 0; i < sets; i++) {
 		yield (
 			<Layout>
-				<Title>
+				<Title speak>
 					Dumbbell Tricep Extension ({i + 1}/{sets})
 				</Title>
 				<Description>

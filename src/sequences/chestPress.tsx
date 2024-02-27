@@ -7,7 +7,7 @@ export function* chestPress(sequence: SequenceComposerController, sets: number =
 	for (let i = 0; i < sets; i++) {
 		yield (
 			<Layout>
-				<Title>
+				<Title speak>
 					Chest Press ({i + 1}/{sets})
 				</Title>
 				<Description>

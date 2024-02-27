@@ -5,6 +5,8 @@ import { Header } from "./components/Header";
 import { SequenceComposer } from "./components/SequenceComposer";
 import { Action, Description, Layout, Title } from "./components/SingleActionScreen";
 
+import { SoundPlaybackQueueProvider } from "./contexts/SoundPlaybackQueueContext.tsx";
+import { SpeechSynthesisProvider } from "./contexts/SpeechSynthesisContext.tsx";
 import { TestingProvider } from "./contexts/TestingContext.tsx";
 import { useWakeLock, WakeLockProvider } from "./contexts/WakeLockContext.tsx";
 
@@ -85,10 +87,10 @@ const Body: FunctionComponent<BodyProps> = ({ scene, onChangeScene }) => {
 		case "completed":
 			return (
 				<Layout>
-					<Title>
+					<Title speak>
 						Completed
 					</Title>
-					<Description>
+					<Description speak>
 						You have completed the full exercise menu.
 					</Description>
 					<Action
@@ -125,7 +127,11 @@ render(
 	import.meta.env.PROD ? <App /> : (
 		<TestingProvider enabled>
 			<WakeLockProvider>
-				<App />
+				<SoundPlaybackQueueProvider intervalMs={100}>
+					<SpeechSynthesisProvider>
+						<App />
+					</SpeechSynthesisProvider>
+				</SoundPlaybackQueueProvider>
 			</WakeLockProvider>
 		</TestingProvider>
 	),
