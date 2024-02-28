@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { type ComponentChild, type FunctionComponent } from "preact";
+import { type FunctionComponent } from "preact";
 
 import { CircleBackslashIcon } from "../../icons/CircleBackslash.tsx";
 import { CrossCircledIcon } from "../../icons/CrossCircled.tsx";
@@ -18,7 +18,7 @@ function useWakeLockButton(
 	state: WakeLockState,
 ): {
 	disabled?: boolean;
-	label: ComponentChild;
+	label: string;
 	Icon: FunctionComponent<{ class?: string }>;
 	AdditionalIcon?: FunctionComponent<{ class?: string }>;
 } {
