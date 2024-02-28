@@ -35,7 +35,7 @@ jobs:
       - name: Build app
         run: bun run --bun build
         env:
-          BASE_URL: ${{ github.event.repository.name }}
+          BASE_URL: "/${{ github.event.repository.name }}/"
           OWNER: ${{ github.repository_owner }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
