@@ -2,6 +2,7 @@ import rollupLicensePlugin from "rollup-plugin-license";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+	base: process.env.BASE_URL,
 	build: {
 		rollupOptions: {
 			plugins: [

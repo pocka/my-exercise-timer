@@ -5,19 +5,22 @@
 	"scripts": {
 		"fmt": "dprint fmt",
 		"dev": "vite",
-		"build": "vite build",
+		"build": "vite build && bun run scripts/sw.ts && bun run scripts/webmanifest.ts && bun run scripts/logo.tsx",
 		"storybook": "storybook dev -p 6006 --no-open",
 		"build-storybook": "storybook build"
 	},
 	"devDependencies": {
+		"@resvg/resvg-js": "^2.6.0",
 		"@storybook/addon-essentials": "^7.6.17",
 		"@storybook/blocks": "^7.6.17",
 		"@storybook/preact": "^7.6.17",
 		"@storybook/preact-vite": "^7.6.17",
+		"@types/web-app-manifest": "^1.0.8",
 		"bun-types": "^1.0.29",
 		"dprint": "^0.45.0",
 		"lint-staged": "^15.2.2",
 		"postcss": "^8.4.35",
+		"preact-render-to-string": "^6.4.0",
 		"rollup-plugin-license": "^3.2.0",
 		"storybook": "^7.6.17",
 		"tailwindcss": "^3.4.1",
@@ -26,7 +29,10 @@
 	},
 	"dependencies": {
 		"clsx": "^2.1.0",
-		"preact": "^10.19.6"
+		"preact": "^10.19.6",
+		"workbox-cacheable-response": "^7.0.0",
+		"workbox-routing": "^7.0.0",
+		"workbox-strategies": "^7.0.0"
 	},
 	"lint-staged": {
 		"*.{js,ts,tsx,json,md}": "dprint fmt"
