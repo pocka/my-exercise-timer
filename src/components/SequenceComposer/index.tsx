@@ -1,5 +1,5 @@
 import { type ComponentChild, type FunctionComponent } from "preact";
-import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
+import { useCallback, useMemo, useRef, useState } from "preact/hooks";
 
 function isComponent(x: unknown): x is FunctionComponent {
 	if (typeof x !== "function") {

@@ -1,4 +1,3 @@
-import { clsx } from "clsx";
 import { type FunctionComponent } from "preact";
 
 function zeroPad(x: number): string {
@@ -6,8 +5,6 @@ function zeroPad(x: number): string {
 }
 
 export interface DurationProps {
-	class?: string;
-
 	seconds: number;
 
 	/**
@@ -22,7 +19,7 @@ export interface DurationProps {
 }
 
 export const Duration: FunctionComponent<DurationProps> = (
-	{ class: className, seconds, showHours = false, showMinutes = true },
+	{ seconds, showHours = false, showMinutes = true },
 ) => {
 	if (!showMinutes) {
 		return <>{zeroPad(seconds)}</>;

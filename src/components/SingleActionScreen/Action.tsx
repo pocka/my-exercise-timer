@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { type ComponentChildren, type FunctionComponent } from "preact";
+import { type FunctionComponent } from "preact";
 
 import { Button, type ButtonProps } from "../Button";
 
