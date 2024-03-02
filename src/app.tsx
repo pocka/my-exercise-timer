@@ -10,8 +10,10 @@ import { SpeechSynthesisProvider } from "./contexts/SpeechSynthesisContext.tsx";
 import { TestingProvider } from "./contexts/TestingContext.tsx";
 import { useWakeLock, WakeLockProvider } from "./contexts/WakeLockContext.tsx";
 
+import { abWheel } from "./sequences/abWheel.tsx";
 import { bicepCurls } from "./sequences/bicepCurls.tsx";
 import { chestPress } from "./sequences/chestPress.tsx";
+import { grips } from "./sequences/grips.tsx";
 import { lunges } from "./sequences/lunges.tsx";
 import { planks } from "./sequences/planks.tsx";
 import { rows } from "./sequences/rows.tsx";
@@ -43,6 +45,10 @@ const Menu: FunctionComponent<MenuProps> = ({ onEnd }) => {
 				yield* tricepExtensions(sequence);
 
 				yield* planks(sequence);
+
+				yield* abWheel(sequence);
+
+				yield* grips(sequence);
 
 				wakeLock.deactivate();
 			}}

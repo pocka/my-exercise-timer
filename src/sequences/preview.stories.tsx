@@ -28,6 +28,12 @@ export default {
 
 type Story = StoryObj<Args>;
 
+export const AbWheel: Story = {
+	args: {
+		sequence: (await import("./abWheel.tsx")).abWheel,
+	},
+};
+
 export const BicepCurls: Story = {
 	args: {
 		sequence: (await import("./bicepCurls.tsx")).bicepCurls,
@@ -37,6 +43,12 @@ export const BicepCurls: Story = {
 export const ChestPress: Story = {
 	args: {
 		sequence: (await import("./chestPress.tsx")).chestPress,
+	},
+};
+
+export const Grips: Story = {
+	args: {
+		sequence: (await import("./grips.tsx")).grips,
 	},
 };
 
