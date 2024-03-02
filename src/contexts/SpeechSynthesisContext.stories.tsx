@@ -2,7 +2,7 @@ import { type Meta, type StoryObj } from "@storybook/preact";
 import { useRef, useState } from "preact/hooks";
 
 import { SoundPlaybackQueueProvider } from "./SoundPlaybackQueueContext.tsx";
-import { SpeechSynthesisProvider, useSpeechSynthesis } from "./SpeechSynthesisContext.tsx";
+import { MLSpeechSynthesisProvider, SpeechSynthesisProvider, useSpeechSynthesis } from "./SpeechSynthesisContext.tsx";
 
 export default {
 	title: "Contexts/SpeechSynthesisContext",
@@ -40,3 +40,14 @@ export default {
 } satisfies Meta;
 
 export const Demo: StoryObj = {};
+
+export const ML: StoryObj = {
+	decorators: [Story => (
+		<SoundPlaybackQueueProvider intervalMs={200}>
+			<MLSpeechSynthesisProvider>
+				{/* @ts-expect-error: Storybook ships incorrect type definition */}
+				<Story />
+			</MLSpeechSynthesisProvider>
+		</SoundPlaybackQueueProvider>
+	)],
+};

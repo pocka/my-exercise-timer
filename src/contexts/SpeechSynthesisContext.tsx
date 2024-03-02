@@ -1,5 +1,5 @@
 import { type ComponentChildren, createContext, type FunctionComponent, type RefObject } from "preact";
-import { useCallback, useContext, useMemo, useState } from "preact/hooks";
+import { useCallback, useContext, useEffect, useMemo, useState } from "preact/hooks";
 
 import { useSoundPlaybackQueue } from "./SoundPlaybackQueueContext.tsx";
 
@@ -89,6 +89,128 @@ export const SpeechSynthesisProvider: FunctionComponent<SpeechSynthesisProviderP
 
 		return soundPlaybackQueue.enqueue(() => speakPromise(text));
 	}, [soundPlaybackQueue.enqueue]);
+
+	const value = useMemo<SpeechSynthesisController>(() => {
+		if (!active) {
+			return {
+				active,
+				activate,
+			};
+		}
+
+		return {
+			active,
+			deactivate,
+			speak,
+		};
+	}, [active, activate, deactivate, speak]);
+
+	return <Context.Provider value={value}>{children}</Context.Provider>;
+};
+
+export interface MLSpeechSynthesisProviderProps {
+	children: ComponentChildren;
+
+	/**
+	 * Initially active?
+	 */
+	active?: boolean;
+}
+
+export const MLSpeechSynthesisProvider: FunctionComponent<MLSpeechSynthesisProviderProps> = (
+	{ children, active: defaultActive = false },
+) => {
+	const soundPlaybackQueue = useSoundPlaybackQueue();
+
+	const [worker] = useState(() =>
+		new Worker(new URL("./SpeechSynthesisWorker.ts", import.meta.url), { type: "module" })
+	);
+	const [audio, setAudio] = useState<AudioContext | null>(null);
+
+	useEffect(() => {
+		const onMessage = async (ev: MessageEvent) => {
+			console.log(ev.data);
+			if (
+				typeof ev.data !== "object" || !ev.data || !("audio" in ev.data) || !(ev.data.audio instanceof Float32Array)
+				|| !("sampling_rate" in ev.data) || typeof ev.data.sampling_rate !== "number"
+			) {
+				return;
+			}
+
+			if (!audio) {
+				return;
+			}
+
+			const data: Float32Array = ev.data.audio;
+			const samplingRate: number = ev.data.sampling_rate;
+
+			const buffer = audio.createBuffer(1, data.length, samplingRate);
+			buffer.copyToChannel(data, 0);
+
+			const node = new AudioBufferSourceNode(audio, { buffer });
+
+			node.connect(audio.destination);
+			node.start();
+
+			node.addEventListener("ended", () => {
+				node.disconnect();
+			});
+		};
+
+		worker.addEventListener("message", onMessage);
+
+		return () => {
+			worker.removeEventListener("message", onMessage);
+		};
+	}, [soundPlaybackQueue.enqueue, audio]);
+
+	const [active, setActive] = useState(defaultActive);
+
+	const activate = useCallback(() => {
+		setActive(true);
+
+		const ctx = new AudioContext();
+
+		const silence = ctx.createBuffer(1, 4, 16_000);
+		silence.copyToChannel(new Float32Array([0, 0, 0, 0]), 0);
+		const node = new AudioBufferSourceNode(ctx, { buffer: silence });
+
+		node.connect(ctx.destination);
+		node.start();
+
+		node.addEventListener("ended", () => {
+			node.disconnect();
+		});
+
+		setAudio(ctx);
+	}, []);
+
+	const deactivate = useCallback(() => {
+		setActive(false);
+	}, []);
+
+	const speak = useCallback<ActiveSpeechSynthesis["speak"]>((textOrElement) => {
+		if (typeof textOrElement === "string") {
+			worker.postMessage(textOrElement);
+
+			// TODO: Cancel
+			return () => {};
+		}
+
+		if (!textOrElement.current) {
+			return () => {};
+		}
+
+		const text = textOrElement.current.textContent;
+		if (!text) {
+			return () => {};
+		}
+
+		worker.postMessage(text);
+
+		// TODO: Cancel
+		return () => {};
+	}, []);
 
 	const value = useMemo<SpeechSynthesisController>(() => {
 		if (!active) {
