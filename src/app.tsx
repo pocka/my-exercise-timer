@@ -10,6 +10,8 @@ import { SpeechSynthesisProvider } from "./contexts/SpeechSynthesisContext.tsx";
 import { TestingProvider } from "./contexts/TestingContext.tsx";
 import { useWakeLock, WakeLockProvider } from "./contexts/WakeLockContext.tsx";
 
+import { useAppBadge } from "./hooks/useAppBadge.ts";
+
 import { abWheel } from "./sequences/abWheel.tsx";
 import { bicepCurls } from "./sequences/bicepCurls.tsx";
 import { chestPress } from "./sequences/chestPress.tsx";
@@ -26,6 +28,8 @@ interface MenuProps {
 
 const Menu: FunctionComponent<MenuProps> = ({ onEnd }) => {
 	const wakeLock = useWakeLock();
+
+	useAppBadge(true);
 
 	return (
 		<SequenceComposer
