@@ -9,14 +9,16 @@ type ExperimentalWebAppManifest = WebAppManifest & {
 interface GenerateOptions {
 	baseUrl?: string;
 
-	owner?: string;
+	appName?: string;
 }
 
 export const sizes = [32, 192, 512] satisfies number[];
 
-export function generate({ baseUrl = "/", owner }: GenerateOptions = {}): ExperimentalWebAppManifest {
+export function generate(
+	{ baseUrl = "/", appName = "My Exercise Timer" }: GenerateOptions = {},
+): ExperimentalWebAppManifest {
 	return {
-		name: owner ? `Exercise Timer by ${owner}` : "My Exercise Timer",
+		name: appName,
 		short_name: "Exercise Timer",
 		start_url: baseUrl,
 		display: "standalone",
@@ -35,7 +37,7 @@ export function generate({ baseUrl = "/", owner }: GenerateOptions = {}): Experi
 if (import.meta.main) {
 	const manifest = generate({
 		baseUrl: import.meta.env.BASE_URL,
-		owner: import.meta.env.OWNER,
+		appName: import.meta.env.APP_NAME,
 	});
 
 	await Bun.write(

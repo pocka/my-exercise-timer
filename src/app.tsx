@@ -118,7 +118,7 @@ const App: FunctionComponent = () => {
 	const [scene, setScene] = useState<Scene>({ type: "before_start" });
 
 	return (
-		<div class="absolute inset-0 flex flex-col">
+		<div class="fixed inset-0 flex flex-col">
 			<main class="relative grow shrink">
 				<Body scene={scene} onChangeScene={setScene} />
 			</main>

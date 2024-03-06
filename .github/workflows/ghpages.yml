@@ -36,7 +36,9 @@ jobs:
         run: bun run --bun build
         env:
           BASE_URL: "/${{ github.event.repository.name }}/"
-          OWNER: ${{ github.repository_owner }}
+          APP_NAME: "Exercise Timer by ${{ github.repository_owner }}"
+          REMOTE_URL: "${{ github.server_url }}/${{ github.repository }}"
+          REVISION: ${{ github.sha }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

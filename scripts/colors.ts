@@ -12,7 +12,7 @@ export function getTailwindColors(): TailwindColors {
 }
 
 export interface GenerateColorsOptions {
-	owner?: string;
+	seed?: string;
 }
 
 export interface Colors {
@@ -28,13 +28,13 @@ const availableColors = [
 	[colors => colors.pink[400], black],
 	[colors => colors.slate[600], black],
 	[colors => colors.red[400], white],
-	[colors => colors.blue[500], white],
 	[colors => colors.rose[400], black],
 	[colors => colors.green[400], black],
 	[colors => colors.yellow[600], black],
 	[colors => colors.purple[400], white],
 	[colors => colors.orange[400], white],
 	[colors => colors.fuchsia[400], white],
+	[colors => colors.blue[500], white],
 	[colors => colors.lime[500], white],
 	[colors => colors.stone[300], white],
 	[colors => colors.sky[600], white],
@@ -53,17 +53,17 @@ function bigMod(left: bigint | number, right: number): number {
 	return left % right;
 }
 
-export function generate({ owner }: GenerateColorsOptions = {}): Readonly<Colors> {
+export function generate({ seed }: GenerateColorsOptions = {}): Readonly<Colors> {
 	const colors = getTailwindColors();
 
-	if (!owner) {
+	if (!seed) {
 		return {
 			primary: colors.zinc[800],
 			secondary: colors.white,
 		};
 	}
 
-	const index = bigMod(Bun.hash(owner), availableColors.length);
+	const index = bigMod(Bun.hash(seed), availableColors.length);
 
 	return {
 		primary: availableColors[index][0](colors),
@@ -74,7 +74,7 @@ export function generate({ owner }: GenerateColorsOptions = {}): Readonly<Colors
 if (import.meta.main) {
 	console.log(JSON.stringify(
 		generate({
-			owner: import.meta.env.OWNER,
+			seed: import.meta.env.APP_NAME,
 		}),
 		null,
 		2,

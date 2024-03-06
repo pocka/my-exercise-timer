@@ -15,3 +15,5 @@ if ("serviceWorker" in navigator) {
 		console.groupEnd();
 	});
 }
+
+document.title = __APP_NAME__;

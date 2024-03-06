@@ -14,10 +14,11 @@ export interface IconButtonProps {
 }
 
 export const IconButton: FunctionComponent<IconButtonProps> = (
-	{ class: className, children, disabled, label, onClick },
+	{ class: className, children, disabled, label, onClick, ...rest },
 ) => {
 	return (
 		<button
+			{...rest}
 			type="button"
 			class={clsx(
 				className,
