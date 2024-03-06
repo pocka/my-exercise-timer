@@ -6,8 +6,7 @@
 		"fmt": "dprint fmt",
 		"dev": "REVISION=local-dev-$(git rev-parse --short HEAD) vite",
 		"build": "vite build && bun run scripts/sw.ts && bun run scripts/webmanifest.ts && bun run scripts/logo.tsx",
-		"storybook": "REVISION=local-storybook-$(git rev-parse --short HEAD) storybook dev -p 6006 --no-open",
-		"build-storybook": "storybook build"
+		"storybook": "REVISION=local-storybook-$(git rev-parse --short HEAD) storybook dev -p 6006 --no-open"
 	},
 	"devDependencies": {
 		"@resvg/resvg-js": "^2.6.0",
